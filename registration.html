@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    form {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="regForm" onsubmit="return validateForm()">
+    <h2>Event Registration</h2>
+    
+    <label for="name">Full Name:</label>
+    <input type="text" id="name" name="name" required>
+    <div class="error" id="nameError"></div>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <div class="error" id="emailError"></div>
+
+    <label for="phone">Phone Number:</label>
+    <input type="tel" id="phone" name="phone" maxlength="10" required>
+    <div class="error" id="phoneError"></div>
+
+    <label for="event">Select Event:</label>
+    <select id="event" name="event" required>
+      <option value="">-- Choose an event --</option>
+      <option value="workshop">Workshop</option>
+      <option value="seminar">Seminar</option>
+      <option value="competition">Competition</option>
+    </select>
+    <div class="error" id="eventError"></div>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <script>
+    function validateForm() {
+      let valid = true;
+      
+      // Clear previous errors
+      document.querySelectorAll(".error").forEach(e => e.textContent = "");
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const event = document.getElementById("event").value;
+
+      // Name validation
+      if (name.length < 3) {
+        document.getElementById("nameError").textContent = "Name must be at least 3 characters.";
+        valid = false;
+      }
+
+      // Email validation
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      if (!email.match(emailPattern)) {
+        document.getElementById("emailError").textContent = "Please enter a valid email.";
+        valid = false;
+      }
+
+      // Phone validation
+      const phonePattern = /^[0-9]{10}$/;
+      if (!phone.match(phonePattern)) {
+        document.getElementById("phoneError").textContent = "Enter a valid 10-digit number.";
+        valid = false;
+      }
+
+      // Event validation
+      if (event === "") {
+        document.getElementById("eventError").textContent = "Please select an event.";
+        valid = false;
+      }
+
+      return valid;
+    }
+  </script>
+
+</body>
+</html>
